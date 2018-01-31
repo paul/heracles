@@ -5,8 +5,22 @@ require "pry"
 require "pry-byebug"
 require "heracles"
 
+require "rspec/resembles_json_matchers"
+require "active_support/core_ext/object/try.rb" # FIXME: put in resembles_json_matchers
+require "awesome_print"
+
+require "ostruct"
+
 Dir[File.join(File.dirname(__FILE__), "support/shared_contexts/**/*.rb")].each do |file|
   require file
+end
+
+# Order matters
+%w[
+  blog_post_shield
+  user_shield
+].each do |fixture|
+  require File.join(File.dirname(__FILE__), "fixtures", fixture)
 end
 
 RSpec.configure do |config|
