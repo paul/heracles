@@ -19,7 +19,7 @@ module Heracles
       })
     end
 
-    def render
+    def to_serializable_hash
       return hydra_id unless self.class.meta[:full]
       super
     end

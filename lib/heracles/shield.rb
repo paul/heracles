@@ -7,8 +7,6 @@ require "active_support/core_ext/object/blank"
 
 require "heracles/types"
 
-require "awesome_print"
-
 module Heracles
   class Shield
     extend Dry::Core::ClassAttributes
@@ -101,7 +99,7 @@ module Heracles
     alias_method :to_hash, :attributes
     alias_method :to_h, :to_hash
 
-    def render
+    def to_serializable_hash
       self.class.schema.each_with_object({}) do |(key, type), hsh|
         next if type.meta[:private]
         name = ActiveSupport::Inflector.camelize(type.meta[:key] || key.to_s, false)
@@ -111,12 +109,13 @@ module Heracles
         getter = type.meta[:getter]
         value = instance_exec(value, &getter) if getter
 
-        value = value.render if value.is_a?(Heracles::Shield)
+        value = value.to_serializable_hash if value.respond_to?(:to_serializable_hash)
 
         next if type.meta[:remove_null] && value.blank?
         hsh[name] = value
       end
     end
+    alias_method :render, :to_serializable_hash
 
     def self.add_attributes(new_schema)
       schema schema.merge(new_schema)
@@ -154,6 +153,9 @@ module Heracles
       self.class.hydra_type
     end
 
+    # Shields frequently make use if nested anonymous classes, which have `nil`
+    # for a name, which makes debugging difficult. Look up the inheritance tree
+    # to find an object with an actual name.
     def self.name
       @name ||= (super || ancestors[1..-1].find(&:name).name)
     end

@@ -1,7 +1,22 @@
 inherit_from:
-  - https://raw.githubusercontent.com/bkuhlmann/code_quality/v1.3.0/configurations/rubocop/ruby.yml
   - http://relaxed.ruby.style/rubocop.yml
 
 Style/MethodDefParentheses:
   EnforcedStyle: require_parentheses
 
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  TargetRubyVersion: 2.5
+
+Metrics/LineLength:
+  Max: 120
+Metrics/BlockLength:
+  ExcludedMethods:
+    - describe
+    - context
+    - it
+    - specify
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes

@@ -24,11 +24,7 @@ module Heracles
 
     Relation = Types::Definition(ActiveRecord::Relation) if defined?(ActiveRecord)
 
-    Members = Array.constructor do |items|
-      if items.is_a?(Enumerable)
-        items.map { |item| HydraShield.shield(item) }
-      end
-    end
+    Members = Array
 
     Schema = Types::String.constructor do |str|
       str ? ["schema", ActiveSupport::Inflector.camelize(str, true)].join(":") : str

@@ -21,7 +21,7 @@ module Heracles
     end
 
     def hydra_id
-      "/#{hydra_type}/#{id}"
+      @hydra_id ||= "/#{hydra_type}/#{id}"
     end
 
     def hydra_context

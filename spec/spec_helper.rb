@@ -3,13 +3,15 @@
 require "bundler/setup"
 require "pry"
 require "pry-byebug"
+
+require "awesome_print"
+require "ostruct"
+
 require "heracles"
 
-require "rspec/resembles_json_matchers"
 require "active_support/core_ext/object/try.rb" # FIXME: put in resembles_json_matchers
-require "awesome_print"
-
-require "ostruct"
+require "rspec/resembles_json_matchers"
+require "rspec/benchmark"
 
 Dir[File.join(File.dirname(__FILE__), "support/shared_contexts/**/*.rb")].each do |file|
   require file
